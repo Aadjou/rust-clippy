@@ -145,6 +145,7 @@ pub mod inline_fn_without_body;
 pub mod int_plus_one;
 pub mod invalid_ref;
 pub mod items_after_statements;
+pub mod item_length;
 pub mod large_enum_variant;
 pub mod len_zero;
 pub mod let_if_seq;
@@ -291,6 +292,7 @@ pub fn register_plugins(reg: &mut rustc_plugin::Registry) {
     );
     // end deprecated lints, do not remove this comment, it’s used in `update_lints`
 
+    reg.register_late_lint_pass(box item_length::ItemLength);
     reg.register_late_lint_pass(box serde_api::Serde);
     reg.register_early_lint_pass(box utils::internal_lints::Clippy);
     reg.register_late_lint_pass(box utils::internal_lints::LintWithoutLintPass::default());
@@ -532,6 +534,7 @@ pub fn register_plugins(reg: &mut rustc_plugin::Registry) {
         functions::TOO_MANY_ARGUMENTS,
         identity_conversion::IDENTITY_CONVERSION,
         identity_op::IDENTITY_OP,
+        item_length::ITEM_LENGTH,
         if_let_redundant_pattern_matching::IF_LET_REDUNDANT_PATTERN_MATCHING,
         infallible_destructuring_match::INFALLIBLE_DESTRUCTURING_MATCH,
         infinite_iter::INFINITE_ITER,
